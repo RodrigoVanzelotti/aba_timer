@@ -1,5 +1,4 @@
-from dash import dcc, Output, Input, Dash, html, dependencies
-from datetime import datetime, timedelta
+from dash import dcc, Output, Input, Dash, html, ClientsideFunction
 import dash_bootstrap_components as dbc
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -24,12 +23,12 @@ app.layout = dbc.Container([
 # CLIENTSIDE CALLBACKS =======================
 # using clientside callback (remember to create the clientside.js file in the assets folder!)
 app.clientside_callback(
-    dependencies.ClientsideFunction(
+    ClientsideFunction(
         namespace='clientside',
         function_name='update_timer'
     ),
-    dependencies.Output('client-time', 'children'),
-    [dependencies.Input('interval', 'n_intervals')])
+    Output('client-time', 'children'),
+    [Input('interval', 'n_intervals')])
 
 if __name__ == '__main__':
     app.run_server(debug=False)
